@@ -14,12 +14,14 @@ int myFunction(int, int);
 void initUsart(uint32_t baudrate, uint8_t databits, Parity parity, uint8_t stopbits);
 void usartPutchar(unsigned char c);
 int usartGetchar(void);
+void usartPutstring(char s[]);
 
 ISR(USART_RX_vect) {
   usartPutchar(usartGetchar());
 }
 
 int main(void){
+ sei();
   initUsart(9600, 8, NONE, 1);
 
   DDRD = 0b11111100;
@@ -98,4 +100,11 @@ void usartPutchar(unsigned char c) {
   //warten bis UDRE0 frei
   while(~UCSR0A & (1 << UDRE0));
   UDR0 = c;
+}
+
+
+void usartPutstring(char s[]) {
+  for(int i = 0; s[i] !='\0'; i++) {
+    usartPutchar(s[i]);
+  }
 }

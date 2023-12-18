@@ -8,11 +8,13 @@ int main(void){
   while (1) {
       uint16_t gamepad = (uint16_t) getGamepadState();
 
-      _delay_ms(5);
-
-      for(int x = 0; x <16; x++) {
-        usartPutchar((gamepad&(1<<x)?1:0)+48);
-      }
+      _delay_ms(500);
       usartPutchar('\n');
+      usartPutchar('\n');
+      usartPutstring("B  Y  Se St ↑  ↓  ←  →  A  X  ↖  ↗  \n");
+      for(int x = 0; x <12; x++) {
+        usartPutchar((gamepad&(1<<x)?1:0)+48);
+        usartPutstring("  "); 
+      }
   }
 }
